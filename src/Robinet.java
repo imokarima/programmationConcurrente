@@ -1,3 +1,5 @@
+import static java.lang.Thread.sleep;
+
 public class Robinet {
     private Baignoire baignoire;
     private int volumeDebite;
@@ -8,11 +10,25 @@ public class Robinet {
     }
 
     public void debite(){
-        do {
-            this.baignoire.setVolume(this.baignoire.getVolume()+this.volumeDebite);
-            System.out.println("La baignoire se remplie à : "+baignoire.getVolume());
-        }while(this.baignoire.getVolume()<this.baignoire.getVolumeMax());
-        System.out.println("La baignoire est remplie");
+        while(this.baignoire.getVolume()<this.baignoire.getVolumeMax()) {
+            synchronized (baignoire){
+                if(!((this.baignoire.getVolume()+volumeDebite)>this.baignoire.getVolumeMax())){
+                    this.baignoire.setVolume(this.baignoire.getVolume()+this.volumeDebite);
+                    System.out.println("Le debite  : volume = "+baignoire.getVolume());
+                    if(this.baignoire.getVolume()==this.baignoire.getVolumeMax()){
+                        return ;
+                    }
+                }
+            }
+            try {
+                sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
     }
 
 
