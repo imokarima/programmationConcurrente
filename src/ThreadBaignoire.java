@@ -6,6 +6,8 @@ public class ThreadBaignoire extends Thread{
 
     @Override
     public void run() {
-        baignoire.fuite();
+        synchronized (baignoire){
+            baignoire.fuite();
+        }
     }
 }

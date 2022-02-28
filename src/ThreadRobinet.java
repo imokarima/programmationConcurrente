@@ -7,6 +7,8 @@ public class ThreadRobinet extends Thread{
 
     @Override
     public void run() {
-        robinet.debite();
+        synchronized (robinet) {
+            robinet.debite();
+        }
     }
 }

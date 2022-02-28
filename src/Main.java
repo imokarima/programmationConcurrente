@@ -7,8 +7,14 @@ public class Main {
         ThreadBaignoire threadBaignoire = new ThreadBaignoire(baignoire);
         ThreadRobinet threadRobinet= new ThreadRobinet(robinet);
 
-        threadRobinet.start();
-        threadBaignoire.start();
+        synchronized (robinet){
+            threadRobinet.start();
+        }
+        synchronized (baignoire){
+            threadBaignoire.start();
+        }
+
+
 
     }
 }
